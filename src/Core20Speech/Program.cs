@@ -26,6 +26,7 @@ namespace Core20Speech
             };
 
             await r2.StartContinuousRecognitionAsync();
+            await Task.Delay(TimeSpan.FromMinutes(1));
         }
 
     }
