@@ -18,16 +18,29 @@ namespace Core20Speech
         {
             var factory = SpeechFactory.FromEndPoint(new Uri("wss://westus.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?cid=ehhhjfa"), "");
 
-            var r2 = factory.CreateSpeechRecognizerWithStream(new AudioStreamReader(new BinaryReader(File.OpenRead(Path.Combine(Directory.GetCurrentDirectory(), "b0017.wav")))));
-
-            r2.FinalResultReceived += (sender, e) =>
+            while (true)
             {
-                Console.WriteLine("[RecognizedText] " + e.Result.RecognizedText);
-            };
+                var speechRecognizer = factory.CreateSpeechRecognizerWithStream(new AudioStreamReader(new BinaryReader(File.OpenRead(Path.Combine(Directory.GetCurrentDirectory(), "b0017.wav")))));
 
-            await r2.StartContinuousRecognitionAsync();
-            await Task.Delay(TimeSpan.FromMinutes(1));
-            await r2.StopContinuousRecognitionAsync();
+                speechRecognizer.FinalResultReceived += OnResult;
+
+                try
+                {
+                    await speechRecognizer.StartContinuousRecognitionAsync();
+                    await Task.Delay(TimeSpan.FromMinutes(0.5));
+                }
+                catch { }
+                finally
+                {
+                    await speechRecognizer.StopContinuousRecognitionAsync();
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+                }
+            }
+        }
+
+        private static void OnResult(object sender, SpeechRecognitionResultEventArgs e)
+        {
+            Console.WriteLine("[RecognizedText] " + e.Result.RecognizedText);
         }
 
     }
