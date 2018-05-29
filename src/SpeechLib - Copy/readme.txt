@@ -1,1 +1,0 @@
-This is from: https://msasg.visualstudio.com/Skyman/_packaging?feed=Carbon&package=Microsoft.CognitiveServices.Speech&version=0.3.0-beta.0.2299718&protocolType=NuGet&_a=package&view=overview

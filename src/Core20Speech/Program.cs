@@ -10,13 +10,11 @@ namespace Core20Speech
         public static void Main(string[] args)
         {
             RunAsync().Wait();
-
-            Console.Read();
         }
 
         public static async Task RunAsync()
         {
-            var factory = SpeechFactory.FromEndPoint(new Uri("wss://westus.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?cid=ehhhjfa"), "");
+            var factory = SpeechFactory.FromEndPoint(new Uri(""), "");
 
             while (true)
             {
