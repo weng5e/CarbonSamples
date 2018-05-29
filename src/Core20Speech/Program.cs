@@ -16,17 +16,18 @@ namespace Core20Speech
 
         public static async Task RunAsync()
         {
-            var s = SpeechFactory.FromEndPoint(new Uri("wss://westus.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?cid=064bf7a0-ddc1-4b8e-ae58-e07e62318849"), "{key}");
+            var factory = SpeechFactory.FromEndPoint(new Uri("wss://westus.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?cid=ehhhjfa"), "");
 
-            var r2 = s.CreateSpeechRecognizerWithStream(new AudioStreamReader(new BinaryReader(File.OpenRead(Path.Combine(Directory.GetCurrentDirectory(), "b0017.wav")))));
+            var r2 = factory.CreateSpeechRecognizerWithStream(new AudioStreamReader(new BinaryReader(File.OpenRead(Path.Combine(Directory.GetCurrentDirectory(), "b0017.wav")))));
 
             r2.FinalResultReceived += (sender, e) =>
             {
-                Console.WriteLine(e.Result.RecognizedText);
+                Console.WriteLine("[RecognizedText] " + e.Result.RecognizedText);
             };
 
             await r2.StartContinuousRecognitionAsync();
             await Task.Delay(TimeSpan.FromMinutes(1));
+            await r2.StopContinuousRecognitionAsync();
         }
 
     }
@@ -38,7 +39,7 @@ namespace Core20Speech
             FormatTag = 1,
             Channels = 1,
             SamplesPerSec = 16000,
-            AvgBytesPerSec = 16000 * 1 * 16 / 8,
+            AvgBytesPerSec = 16000 * 16 / 8,
             BlockAlign = 1 * 16 / 8,
             BitsPerSample = 16,
         };
